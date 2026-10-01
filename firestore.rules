@@ -1,0 +1,20 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /*
+     * Public website can read notices.
+     * Only authenticated administrators can write.
+     */
+
+    match /notices/{noticeId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if request.auth != null;
+
+    }
+
+  }
+}
